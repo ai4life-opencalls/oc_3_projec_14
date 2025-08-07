@@ -16,9 +16,11 @@ tqdm>=4.66.1
 iopath>=0.1.10
 jupyterlab
 openslide-bin
+shapely
 geojson
 marimo
 zarr<=2.14.2
+ome-zarr
 torchinfo
 timm
 segment_anything @ git+https://github.com/facebookresearch/segment-anything.git
