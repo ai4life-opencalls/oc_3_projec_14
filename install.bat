@@ -10,7 +10,7 @@ echo "\nInstall PyTorch and torchvision using light-the-torch"
 python -m pip install light-the-torch
 ltt install 'torch>=2.5.1' 'torchvision>=0.20.1'
 echo "\nInstall additional dependencies"
-conda install -c conda-forge dask
+conda install -c conda-forge dask -y
 python -m pip install -r ./requirements.txt
 echo "\nInstall FeatureForest from GitHub"
 python -m pip install git+https://github.com/juglab/featureforest.git
