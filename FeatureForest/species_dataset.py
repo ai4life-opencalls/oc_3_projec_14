@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.14.13"
+__generated_with = "0.15.0"
 app = marimo.App(width="full")
 
 
@@ -22,7 +22,7 @@ def _(mo):
     get_allow_run, set_allow_run = mo.state(False)
 
     ui_level_num = mo.ui.number(
-        start=1, stop=9, step=1, value=1, label="Downsample Level:"
+        start=1, stop=9, step=1, value=1, label="Downsampling Level:"
     )
 
     run_button = mo.ui.button(
@@ -35,10 +35,10 @@ def _(mo):
     mo.vstack(
         [
             mo.md(
-                "**Set the downsample level (1 means no downsample which is the highest resolution)**"
+                "**Set the downsample level (1 means no downsampling which is the highest resolution)**"
             ),
             mo.md(
-                "If you're making a dataset for the *Ray* cells, it's recommended to use higher downsample like 4."
+                "If you're making a dataset for the *Ray* cells, it's recommended to use higher downsampling level like 4."
             ),
             ui_level_num,
             run_button,
@@ -77,7 +77,7 @@ def _(mo):
 
 
 @app.cell
-def _(get_patch_coords, get_region, has_content, mo, openslide, tifffile):
+def _(get_patch_coords, get_region, mo, openslide, tifffile):
     def get_samples(slide_file, save_dir, patch_size=512, level=1):
         slide = openslide.OpenSlide(slide_file)
         # actual levels are 0-index-based, between 0-8
@@ -100,11 +100,11 @@ def _(get_patch_coords, get_region, has_content, mo, openslide, tifffile):
                         (patch_size, patch_size),  # (width, height)
                         level=level_idx,  # resolution level index
                     )
-                    if has_content(img, var_threshold):
-                        tifffile.imwrite(
-                            save_dir.joinpath(f"row_{row:03}_col_{col:03}.tiff"),
-                            img[..., :-1],  # omit the alpha channel
-                        )
+                    # if has_content(img, var_threshold):
+                    tifffile.imwrite(
+                        save_dir.joinpath(f"row_{row:03}_col_{col:03}.tiff"),
+                        img[..., :-1],  # omit the alpha channel
+                    )
 
     return (get_samples,)
 
@@ -169,7 +169,7 @@ def _(np):
 
         return img_var > threshold and num_blacks < green_ch.size // 3
 
-    return (has_content,)
+    return
 
 
 @app.cell

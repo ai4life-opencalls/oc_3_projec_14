@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.11.31"
+__generated_with = "0.15.0"
 app = marimo.App(width="full")
 
 
@@ -37,7 +37,7 @@ def _(mo):
 def _(mo):
     get_allow_samples, set_allow_samples = mo.state(False)
 
-    ui_level_num = mo.ui.number(start=1, stop=9, step=1, value=1, label="Downsample Level:")
+    ui_level_num = mo.ui.number(start=1, stop=9, step=1, value=1, label="Downsampling Level:")
     ui_num_samples = mo.ui.number(start=1, step=1, value=3, label="Number of samples:")
     ui_samples_button = mo.ui.button(
         value=get_allow_samples(),
@@ -48,20 +48,14 @@ def _(mo):
 
     mo.vstack([
         mo.md(
-            f"- Input the downsample level for which you want to make a train dataset.<br>{mo.as_html(ui_level_num)}"
+            f"- Input the downsampling level for which you want to make a train dataset.<br>{mo.as_html(ui_level_num)}"
         ),
         mo.md(
             f"- Input number of samples for each species.<br>{mo.as_html(ui_num_samples)}"
         ),
         ui_samples_button
     ])
-    return (
-        get_allow_samples,
-        set_allow_samples,
-        ui_level_num,
-        ui_num_samples,
-        ui_samples_button,
-    )
+    return get_allow_samples, set_allow_samples, ui_level_num, ui_num_samples
 
 
 @app.cell
@@ -83,24 +77,21 @@ def _(mo, ui_browser, ui_level_num, ui_num_samples):
             missing_dirs.append(_dir)
 
 
-    _output = None
+    _output = mo.Html(
+        f"Available datasets:<b>{mo.as_html([str(p) for p in species_folders])}"
+    ).callout(kind="success")
+
     if len(missing_dirs) > 0:
         missings = [str(m) for m in missing_dirs]
         _output = mo.vstack([
+            _output,
             mo.Html(
                 f"⚠️ Missing datasets:<br>{mo.as_html(missings)}<br>If you don't want to include them, then ignore the warning."
             ).callout(kind="warn")
         ])
 
     _output
-    return (
-        level,
-        missing_dirs,
-        missings,
-        num_samples,
-        raw_data_dir,
-        species_folders,
-    )
+    return level, num_samples, species_folders
 
 
 @app.cell
@@ -125,7 +116,7 @@ def _(
         print("Done!")
 
     set_allow_samples(False)
-    return samples, sp_dir
+    return (samples,)
 
 
 @app.cell
@@ -151,7 +142,7 @@ def _(mo):
         ui_save_browser,
         ui_save_button
     ])
-    return get_allow_run, set_allow_run, ui_save_browser, ui_save_button
+    return get_allow_run, set_allow_run, ui_save_browser
 
 
 @app.cell
@@ -191,12 +182,12 @@ def _(
     set_allow_run(False)
 
     _output
-    return i, result_dir, sample, stack
+    return
 
 
 @app.cell
 def _(mo):
-    mo.md(r"### Utility Functions")
+    mo.md(r"""### Utility Functions""")
     return
 
 
@@ -243,7 +234,7 @@ def _():
 
 
     np.random.seed(777)
-    return Path, mo, np, pims, plt, tifffile, warnings
+    return Path, mo, np, pims, tifffile, warnings
 
 
 if __name__ == "__main__":
