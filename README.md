@@ -19,8 +19,30 @@ To achieve the desired analysis of the project, as the first step we needed to a
 - For *Vessel* cells, we trained a deep learning model to achieve the segmentation masks.
 - For other cell types (*Fiber*, *Axial Parenchyma* and *Ray*), we created a pipeline using [**FeatureForest**](https://github.com/juglab/featureforest), a napari plugin that uses a few user-provided scribble labels to generate semantic segmentation masks of desired cell types.
 
+
+## Installation
+First you need to install [conda] or [mamba] as your python package and dependency manager.  
+We provided `install.sh` script for Linux & Mac OS users, and `install.bat` script for Windows users.  
+First you need to clone the repo:
+```bash
+git clone https://github.com/ai4life-opencalls/oc_3_projec_14
+cd ./oc_3_projec_14
+```
+Now run the installation script:
+```bash
+# Linux or Mac OS
+sh ./install.sh
+```
+```bash
+# Windows
+./install.bat
+```
+This will install all required packages and dependencies including *napari* and the **FeatureForest** plugin. For more details about installation you can refer to the [installation page](https://juglab.github.io/featureforest/install/) of the **FeatureForest** plugin.
+
+
 ## Semantic Segmentation of *Vessel* Cells
 to be completed...
+
 
 ## Generating masks for other cell types
 to be completed...
@@ -28,3 +50,7 @@ to be completed...
 ---
 <img src="assets/eu_flag.jpg" height="50" align="left" style="margin: 5px 10px 0 0">
 <div style="text-align: justify">AI4Life has received funding from the European Union's Horizon Europe research and innovation programme under grant agreement number 101057970. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Research Council Executive Agency. Neither the European Union nor the granting authority can be held responsible for them.</div>
+
+
+[conda]: https://conda.io/projects/conda/en/latest/index.html
+[mamba]: https://mamba.readthedocs.io/en/latest/installation/mamba-installation.html
