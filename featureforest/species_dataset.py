@@ -35,7 +35,7 @@ def _(mo):
     mo.vstack(
         [
             mo.md(
-                "**Set the downsample level (1 means no downsampling which is the highest resolution)**"
+                "**Set the downsampling level (1 means no downsampling which is the highest resolution)**"
             ),
             mo.md(
                 "If you're making a dataset for the *Ray* cells, it's recommended to use higher downsampling level like 4."
