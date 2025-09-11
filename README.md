@@ -9,9 +9,9 @@
 In this project, scientist from the Hawkesbury Institute for the Environment, Western Sydney University wanted to investigate how wood anatomy is linked to wood lifespan and tree growth. There are four main cell types in wood: *Fiber*, *Vessel*, *Axial Parenchyma* and *Ray*. Each type of cell plays a different role in the transport of water and nutrients throughout the plant. By analyzing these cells, scientists hope to gain insights into how they affect wood lifespan and tree growth.  
 The data for this project was aquired using brightfield microscopy (BFM) of cross-sections of wood samples, which allows researchers to capture images of the entire sample at once. This method provides high-resolution images that can be used to analyze individual cells within the wood structure. The data was included of 93 whole-slide images of 51 species.
 <div>
-<img src="assets/sp1.png" width="275px"/>
-<img src="assets/sp2.png" width="275px"/>
-<img src="assets/sp3.png" width="275px"/>
+<img src="assets/sp1.png" width="272px"/>
+<img src="assets/sp2.png" width="272px"/>
+<img src="assets/sp3.png" width="272px"/>
 </div>  
 
 ## Overview

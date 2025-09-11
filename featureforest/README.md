@@ -26,6 +26,13 @@ For this step you can use the `species_dataset.py` notebook. To run the notebook
 ```bash
 marimo run species_dataset.py
 ```
-<img src="../assets/sp_dataset_nb.png">
-<!-- > [!NOTE]   -->
+<img src="../assets/sp_dataset_nb.png">  
 
+<br>
+
+- **Downsampling Level**:  
+The whole-slide image has **9** levels of resolution. With setting the downsamping level to **1**, you get the highest resolution patches.  
+However, for the *Ray* cell segmentation, it is recommended to use more downsampling level because *Ray* cells are long cells in parallel to the sample cross-section. In higher resolutions, only part of those cells are visible, and this makes it hard for detection and segmentation of those cells.  
+
+> [!NOTE]  
+> The extracted patches will be saved in the selected species directory under `<species>/dataset/level_<n>`. 
