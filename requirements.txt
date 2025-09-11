@@ -21,6 +21,7 @@ geojson
 marimo
 zarr<=2.14.2
 ome-zarr
+napari-ome-zarr
 torchinfo
 timm>1.0
 segment_anything @ git+https://github.com/facebookresearch/segment-anything.git
