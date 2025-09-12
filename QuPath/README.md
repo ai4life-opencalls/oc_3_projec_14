@@ -1,7 +1,7 @@
 ## Export Annotated Tiles in QuPath
 
 This [script](qupath_tile_export.groovy) is used to export annotated tiles from a QuPath project. To use this script, you need to open your QuPath project first and then load and run the script.  
-To load the script, from the menu barclick on `Automate` -> `Script editor` and then copy/paste the code into the text box. Then click on `Run`.  You can also put the provided script file into the *user* or *shared* scripts folder of your QuPath installation directory.  
+To load the script, from the menu barclick on **Automate** -> **Script editor** and then copy/paste the code into the text box. Then click on **Run**.  You can also put the provided script file into the *user* or *shared* scripts folder of your QuPath installation directory.  
 
 #### Script parameters:
 - Export directory:  
