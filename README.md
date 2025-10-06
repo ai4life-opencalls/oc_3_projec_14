@@ -39,9 +39,27 @@ sh ./install.sh
 ```
 This will install all required packages and dependencies including *napari* and the **FeatureForest** plugin. For more details about installation you can refer to the [installation page](https://juglab.github.io/featureforest/install/) of the **FeatureForest** plugin.
 
+## Running *`marimo`* notebooks:
+For various steps we provided a [`marimo`](https://marimo.io/) notebook which allows users to have a more interactive interface to run python codes. So, unlike usual *jupyter* notebooks, the user has no need to edit codes or enters parameters or paths manually.  
+
+A `marimo` notebook is basically a script file that can be executed either by `python` or `marimo` command.  
+> *marimo is an open-source reactive Python notebook: run a cell or interact with a UI element, and marimo automatically runs dependent cells (or marks them as stale), keeping code and outputs consistent and preventing bugs before they happen. Every marimo notebook is stored as pure Python (Git-friendly), executable as a script, and deployable as an app; while stored as Python, marimo notebooks also have native support for SQL*.
+
+To run a notebook interactively, you need to run it using `marimo` command:
+```bash
+marimo run <notebook_file.py>
+```
+This will pop-up a new browser window (tab) where you can interactively execute the cells of the notebook.  
+If you want to have more control over the notebook execution process, and being able to edit the codes, you need to run it in *edit* mode:
+```bash
+marimo edit <notebook_file.py>
+```
+To exit the interactive session, press `Ctrl+C` in the console terminal or use the *shutdown* button in the marimo browser tab.  
+Here you can find more tutorials on how to work with `marimo`: https://docs.marimo.io/getting_started/
+
 
 ## Semantic Segmentation of *Vessel* Cells
-to be completed...
+This pipeline was made for the training of a semantic segmentation model to predict the mask of *Vessel* cells. You can find the detailed instructions on how to train the model and predict the masks in [here](vessel_segmentation/README.md)
 
 
 ## Generating masks for other cell types using FeatureForest

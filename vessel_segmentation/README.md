@@ -10,8 +10,8 @@ First we need to make a dataset from the annotated part of the whole-slide image
 
 To export these tiles and their masks, please check the script and documentation at [here](../QuPath/README.md). The exported tiles will be saved as `.tif` files under `tiles` directory including `images` and `labels`.
 
-### Step 2: Tiles Filtering
-Since the annotated regions are pie-shaped, some of tiles at the edges may contain only partial annotation which means they might contain more *vessels* but without annotations. This will make it hard for model to distinguish between *vessels* and *non-vessels*. Therefore, we need to filter out those tiles before feeding them into the model.  
+### Step 2: Tile Filtering
+Since the annotated regions are pie-shaped, some tiles at the edges may contain only partial annotation which means they might contain more *vessels* but without annotations. This will make it hard for model to distinguish between *vessels* and *non-vessels*. Therefore, we need to filter out those tiles before feeding them into the model.  
 
 To do so, first we need to export the polygon area around each annotated pie area. In QuPath, select the *vessel.region.small* annotation and export the polygon as a `GeoJSON` file.
 
@@ -27,3 +27,17 @@ After that, you can run `get_tiles_within_region.py` notebook to do this filteri
 ```bash
 marimo run get_tiles_within_region.py
 ```
+In this notebook, you should specify the path to the extracted tile images directory, and the exported GeoJSON file.  
+The filtered tiles will be saved in the `tiles_within_region` directory.
+
+### Step 3: Making Train/Test Datasets
+Next, we need to make a dataset collecting all filtered tiles across different species, and then we split the dataset into train/test datasets.
+```bash
+marimo run make_dataset.py
+```
+
+<img src="../assets/vessel/make_ds.png" height="360px">
+
+
+### Step 4: Training the Model
+
