@@ -6,7 +6,9 @@ app = marimo.App(width="full")
 
 @app.cell
 def _(mo):
-    mo.md(r"""#### Select the image patch dataset directory (*for example .../species/fir sim 1125-1/dataset/level_2*)""")
+    mo.md(
+        r"""#### Select the image patch dataset directory (*for example .../species/fir sim 1125-1/dataset/level_2*)"""
+    )
     return
 
 
@@ -223,9 +225,9 @@ def _(
 
     # write the dataset to the disk
     write_image(
-        image=dask_image, 
-        group=root, 
-        axes="cyx", 
+        image=dask_image,
+        group=root,
+        axes="cyx",
         storage_options=dict(chunks=chunk_shape),
         scaler=scaler,
     )
@@ -253,7 +255,6 @@ def _(Path, da, np, tifffile):
 
         return row, col
 
-
     def imread(fname):
         with tifffile.TiffFile(fname) as tif:
             img = tif.asarray()
@@ -267,7 +268,6 @@ def _(Path, da, np, tifffile):
 
         return img
 
-
     def get_lazy_arrays(lazy_imread, img_files, data_shape, dtype):
         lazy_images = [
             lazy_imread(imgf) for imgf in img_files
@@ -279,7 +279,6 @@ def _(Path, da, np, tifffile):
         ]
 
         return lazy_arrays
-
 
     def get_dask_image(
         arrays, positions, data_shape, dtype
@@ -301,8 +300,6 @@ def _(Path, da, np, tifffile):
             img_blocks.append(da.concatenate(row_blocks, axis=2))
 
         return da.concatenate(img_blocks, axis=1)
-
-
 
     return get_dask_image, get_lazy_arrays, get_patch_position, imread
 

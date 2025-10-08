@@ -1,6 +1,10 @@
 # Pipeline Description
 This document will describe the pipeline used to prepare the data and train a *Random Forest* model utilizing **FeatureForest** napari plugin to generate segmentation masks.  
 
+> [Note]
+> Remember to activate the environment before running any commands.
+> Like: `conda activate tree`
+
 ## Pipeline Steps
 
 ### Step 1: Data Preparation
@@ -19,6 +23,7 @@ However, for the *Ray* cell segmentation, it is recommended to use more downsamp
 
 > [!NOTE]  
 > The extracted patches will be saved in the selected species directory under `<species>/dataset/level_<n>`.  
+> By default, the patches will be extracted only from the down-left quarter of the slide.  
 
 > [!TIP]
 > You can train a single model for several species. To do that, first you need to extract patches for all species one by one. Then in the next step, you can make a train stack containing patches from different species. 

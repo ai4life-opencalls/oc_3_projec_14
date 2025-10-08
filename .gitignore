@@ -1,3 +1,7 @@
+hiera_small_encoder.pt
+vessel_dataset/
+checkpoints/
+
 .DS_Store
 __marimo__
 
