@@ -1,7 +1,7 @@
 # Pipeline Description
 This document will describe the pipeline used to prepare the data and train a *Random Forest* model utilizing **FeatureForest** napari plugin to generate segmentation masks.  
 
-> [Note]
+> [!NOTE]
 > Remember to activate the environment before running any commands.
 > Like: `conda activate tree`
 

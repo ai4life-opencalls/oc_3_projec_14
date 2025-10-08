@@ -23,7 +23,7 @@ To do so, first we need to export the polygon area around each annotated pie are
 
 <br>
 
-> [Note]
+> [!NOTE] 
 > Remember to activate the environment before running any commands.
 > Like: `conda activate tree`
 
@@ -45,9 +45,11 @@ marimo run make_dataset.py
 
 ### Step 4: Training the Model
 #### Model Architecture
-The model we designed for this segmentation task has two main parts: Encoder and Decoder. For the encoder part we used the [*hiera transformr*](https://github.com/facebookresearch/hiera). In particular, we utilized the [*SAM2*](https://github.com/facebookresearch/sam2) image encoder loaded with the pretrained weights (SAM2 small version). The encoder part is fixed during the training process.  
+The model we designed for this segmentation task has two main parts: Encoder and Decoder. For the encoder part we used the [*hiera transformer*](https://github.com/facebookresearch/hiera). In particular, we utilized the [*SAM2*](https://github.com/facebookresearch/sam2) image encoder loaded with the pretrained weights (SAM2 small version). The encoder part is fixed during the training process.  
 The decoder part consists of several convolutional layers based on the U-Net architecture.  
-You need to download the encoder weights from [here](https://drive.google.com/file/d/1iXzxcxCmeIKcuMB-_4mxxEPGdXAU4bPI/view?usp=sharing) and save it in the same directory where `train.py` resides.
+
+> [!NOTE]
+> You need to download the encoder weights from [here](https://drive.google.com/file/d/1iXzxcxCmeIKcuMB-_4mxxEPGdXAU4bPI/view?usp=sharing) and save it in the same directory where `train.py` resides.
 
 #### Training
 You can train the model using the following command:
