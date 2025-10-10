@@ -44,7 +44,7 @@ def train_model(data_dir: str | Path, batch_size: int = 16):
 
     # hyper-params
     num_epochs = 40
-    lr = 4e-4
+    lr = 3e-4
 
     summary(model, input_size=(batch_size, 3, 512, 512))
 
@@ -56,7 +56,7 @@ def train_model(data_dir: str | Path, batch_size: int = 16):
         val_ds, batch_size=batch_size, shuffle=False, drop_last=False, num_workers=2
     )
     # optim & loss
-    optim = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-8)
+    optim = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=1e-7)
     criterion = torch.nn.BCEWithLogitsLoss()
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optim, mode="min", factor=0.5, patience=5, threshold=1e-4
@@ -150,7 +150,7 @@ def train_model(data_dir: str | Path, batch_size: int = 16):
         f.write(f"num_epochs: {num_epochs}\n")
         f.write(f"batch_size: {batch_size}\n")
         f.write(f"learning_rate: {lr}\n")
-        f.write("optim: AdamW (1e-3)\n")
+        f.write("optim: Adam (1e-7)\n")
         f.write(f"scheduler: {scheduler.state_dict()}\n")
         f.write(f"model: {model.name}\n")
         f.write("criterion: BCEWithLogitsLoss + DiceLoss\n")
