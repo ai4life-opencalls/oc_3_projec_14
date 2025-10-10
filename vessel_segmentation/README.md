@@ -70,6 +70,6 @@ Once the model is trained, you can use it to predict the segmentation mask for t
 python predict.py --dataset=./data/vessel_dataset/test --model_path=./checkpoints/<your_experiment_folder>/model_best.pth
 ```
 What you need to provide here is the path to your test dataset directory and the path to the best checkpoint of your experiment.  
-This will generate predicted masks for each tile in the test dataset. You can find the predictions in the `predictions_{model.name}` directory.  
+This will generate predicted masks for each tile in the test dataset. You can find the predictions in the `predictions_{model.name}` directory inside the dataset main directory (e.g. *vessel_dataset/predictions_predictions_hiera_small_+_decoder*).  
 
 To have a prediction mask over a large area of the whole slide image, you can use the `featureforest/species_dataset.py` notebook mentioned [here](../featureforest/README.md#step-1-data-preparation). After the prediction, you can use the `featureforest/make_zarr_dataset.py` notebook to create a zarr dataset containing the large image and a single `tiff` file containing the predicted mask (see [here](../featureforest/README.md#step-5-make-zarr-dataset)).  
