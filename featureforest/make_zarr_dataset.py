@@ -1,14 +1,14 @@
 import marimo
 
-__generated_with = "0.15.0"
+__generated_with = "0.18.1"
 app = marimo.App(width="full")
 
 
 @app.cell
 def _(mo):
-    mo.md(
-        r"""#### Select the image patch dataset directory (*for example .../species/fir sim 1125-1/dataset/level_2*)"""
-    )
+    mo.md(r"""
+    #### Select the image patch dataset directory (*for example .../species/fir sim 1125-1/dataset/level_2*)
+    """)
     return
 
 
@@ -26,31 +26,12 @@ def _(mo):
 
 
 @app.cell
-def _(mo):
-    mo.md(r"""#### Select the FeatureForest predicted masks directory""")
-    return
-
-
-@app.cell
-def _(mo):
-    mask_browser = mo.ui.file_browser(
-        initial_path="..",
-        selection_mode="directory",
-        multiple=False,
-        label="Select the ***predicted masks*** folder:",
-    )
-
-    mask_browser
-    return (mask_browser,)
-
-
-@app.cell
 def _(browser, get_patch_position, imread, mo, np):
     if not browser.value:
         mo.stop(True)
 
     dataset_folder = browser.path(0)
-    patch_files = list(dataset_folder.glob("*.tiff"))
+    patch_files = list(dataset_folder.glob("*.tif*"))
     patch_files.sort()
     # Load the first patch to get shape and dtype
     patch_img = imread(patch_files[0])
@@ -100,6 +81,27 @@ def _(
 
 
 @app.cell
+def _(mo):
+    mo.md(r"""
+    #### Select the predicted masks directory
+    """)
+    return
+
+
+@app.cell
+def _(mo):
+    mask_browser = mo.ui.file_browser(
+        initial_path="..",
+        selection_mode="directory",
+        multiple=False,
+        label="Select the ***predicted masks*** folder:",
+    )
+
+    mask_browser
+    return (mask_browser,)
+
+
+@app.cell
 def _(
     get_dask_image,
     get_lazy_arrays,
@@ -114,7 +116,7 @@ def _(
 
     # masks
     masks_folder = mask_browser.path(0)
-    mask_files = list(masks_folder.glob("*.tiff"))
+    mask_files = list(masks_folder.glob("*.tif*"))
     mask_files.sort()
 
     mask_shape = (1, 512, 512)
@@ -132,7 +134,7 @@ def _(
     dask_mask = dask_mask.rechunk((1, 1024, 1024))
 
     dask_mask
-    return (dask_mask,)
+    return dask_mask, lazy_masks
 
 
 @app.cell
@@ -164,6 +166,19 @@ def _(dask_mask, dataset_folder, get_allow_run, mo, tifffile):
         photometric="minisblack",
         compression="zlib",
     )
+    return
+
+
+@app.cell
+def _(dask_mask, lazy_masks):
+    large_mask2 = dask_mask.compute()
+    # print(large_mask2.shape)
+    # dask_mask.chunks
+
+    lazy_masks[0].compute().shape
+
+    # _arr = lazy_imread(mask_files[0])
+    # _arr.compute().shape
     return
 
 
@@ -241,7 +256,9 @@ def _(
 
 @app.cell
 def _(mo):
-    mo.md(r"""### Utility Functions""")
+    mo.md(r"""
+    ### Utility Functions
+    """)
     return
 
 
@@ -258,12 +275,13 @@ def _(Path, da, np, tifffile):
     def imread(fname):
         with tifffile.TiffFile(fname) as tif:
             img = tif.asarray()
-            is_rgb = img.shape[-1] in (3, 4)
-        if is_rgb:
+        # is_rgb = img.shape[-1] in (3, 4)
+        is_channel_last = img.shape[-1] in (1, 3, 4)
+        if is_channel_last:
             # convert to (C, H, W) format
             img = img.transpose((2, 0, 1))
-        else:
-            # convert to (1, H, W) format
+        elif len(img.shape) < 3:
+            # make sure it has a channel dim
             img = img[np.newaxis, ...]
 
         return img
@@ -296,11 +314,10 @@ def _(Path, da, np, tifffile):
                 except ValueError:
                     # Fill with zeros if no patch exists for this position
                     row_blocks.append(da.zeros(data_shape, dtype=dtype))
-                
+
             img_blocks.append(da.concatenate(row_blocks, axis=2))
 
         return da.concatenate(img_blocks, axis=1)
-
     return get_dask_image, get_lazy_arrays, get_patch_position, imread
 
 

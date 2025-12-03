@@ -1,6 +1,6 @@
 import marimo
 
-__generated_with = "0.15.0"
+__generated_with = "0.18.1"
 app = marimo.App(width="full")
 
 
@@ -14,7 +14,7 @@ def _(mo):
                   <h3>You should put all your species data under a single directory and select that directory.</h3>
                 """
             ).style({"font-size": "18px"}),
-            mo.image(src="assets/data_dir.png", width=340)
+            mo.image(src="../assets/data_dir.png", width=340)
         ])
     , kind="info")
     return
@@ -60,13 +60,17 @@ def _(mo):
 
 @app.cell
 def _(mo, ui_browser, ui_level_num, ui_num_samples):
+    if ui_browser.value is None:
+        mo.stop(True)
+
     # Get list of species datasets at the selected level
     raw_data_dir = ui_browser.path(0)
     level = ui_level_num.value
     num_samples = ui_num_samples.value
 
     species_folders = [
-        f.joinpath("dataset", f"level_{level}") for f in raw_data_dir.iterdir() if f.is_dir()
+        f.joinpath("dataset", f"level_{level}")
+        for f in raw_data_dir.iterdir() if f.is_dir()
     ]
     species_folders.sort()
 
@@ -75,7 +79,6 @@ def _(mo, ui_browser, ui_level_num, ui_num_samples):
         if not _sp_dir.exists():
             _dir = species_folders.pop(_idx)
             missing_dirs.append(_dir)
-
 
     _output = mo.Html(
         f"Available datasets:<b>{mo.as_html([str(p) for p in species_folders])}"
@@ -187,7 +190,9 @@ def _(
 
 @app.cell
 def _(mo):
-    mo.md(r"""### Utility Functions""")
+    mo.md(r"""
+    ### Utility Functions
+    """)
     return
 
 
@@ -197,14 +202,22 @@ def _(Path, has_content, np, pims, warnings):
         data_dir = Path(data_dir)
         with warnings.catch_warnings():
             warnings.filterwarnings("ignore", category=FutureWarning)
-            lazy_images = pims.ImageSequence(str(data_dir / "*.tiff"))
+            lazy_images = pims.ImageSequence(str(data_dir) + "/*.tiff")
+            print(f"{len(lazy_images)} images found.")
             sample_images = []
 
-            while len(sample_images) < num_samples:
-                rnd_indices = np.random.choice(len(lazy_images), size=num_samples * 10, replace=False)
-                sample_images.extend(
-                    [lazy_images[i] for i in rnd_indices if has_content(lazy_images[i])]
-                )
+            if len(lazy_images) <= num_samples:
+                sample_images = [img for img in lazy_images]
+
+            else:
+                # num_rnd_samples = num_samples * 5 if len(lazy_images) > num_samples * 5 else num_samples
+                rnd_choices = np.random.permutation(len(lazy_images))
+                for i in rnd_choices:
+                    if len(sample_images) >= num_samples:
+                        break
+
+                    if has_content(lazy_images[i]):
+                        sample_images.append(lazy_images[i])
 
         return sample_images[:num_samples]
     return (take_samples,)
