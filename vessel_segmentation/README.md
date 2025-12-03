@@ -64,12 +64,16 @@ python train.py --dataset=./data/vessel_dataset/train --bsize=32
 During the training process, you can monitor the loss values. All the training logs and model checkpoints will be saved in the *`checkpoints`* folder.  
 
 
-### Step 5: Predictions
-Once the model is trained, you can use it to predict the segmentation mask for the test dataset or new images (tiles). To do so, you can run the following command:
+### Step 5: Predictions and Inference
+Once the model is trained, you can use it to predict the segmentation mask for the test dataset and get the test score. To do so, you can run the following command:
 ```bash
 python predict.py --dataset=./data/vessel_dataset/test --model_path=./checkpoints/<your_experiment_folder>/model_best.pth
 ```
 What you need to provide here is the path to your test dataset directory and the path to the best checkpoint of your experiment.  
-This will generate predicted masks for each tile in the test dataset. You can find the predictions in the `predictions_{model.name}` directory inside the dataset main directory (e.g. *vessel_dataset/predictions_predictions_hiera_small_+_decoder*).  
+This will generate predicted masks for each tile in the test dataset. You can find the predictions in the `predictions` directory inside the dataset main directory (e.g. *vessel_dataset/test/predictions*).  
 
-To have a prediction mask over a large area of the whole slide image, you can use the `featureforest/species_dataset.py` notebook mentioned [here](../featureforest/README.md#step-1-data-preparation) to create a tile dataset and then use the trained model to predict the masks. After the prediction, you can use the `featureforest/make_zarr_dataset.py` notebook to create a zarr dataset containing the large image and a single `tiff` file containing the predicted mask (see [here](../featureforest/README.md#step-5-make-zarr-dataset)).  
+To use the model to predict the segmentation mask for images out of the train/test datasets, you can run the inference command:
+```bash
+python inference.py --dataset="./data/species/dataset/level_1" --model_path="./checkpoints/<your_experiment_folder>/model_best.pth"
+```
+The data folder could be the same folder that was created by the `/featureforest/species_dataset.py` notebook [here](../featureforest/README.md#step-1-data-preparation). So, after the inference, you can merge all the predicted masks together using the `featureforest/make_zarr_dataset.py` notebook. See [here](../featureforest/README.md#step-5-make-zarr-dataset) for more details about making the zarr dataset. 
