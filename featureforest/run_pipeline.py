@@ -164,8 +164,9 @@ def run_extract_features(
     data_path = Path(input_file)
     print(f"data_path exists: {data_path.exists()}")
     # get stack dims
-    lazy_stack = pims.open(input_file)
-    img_height, img_width = lazy_stack.frame_shape
+    lazy_stack = pims.open(input_file + "/*.tiff")
+    print(lazy_stack)
+    img_height, img_width = lazy_stack.frame_shape[:2]
 
     # list of available models
     available_models = get_available_models()

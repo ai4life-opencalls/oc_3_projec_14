@@ -10,7 +10,6 @@ from torchinfo import summary
 from tqdm import tqdm
 
 from dataset import SegmentationDataset
-from utils import dice_coeff
 from models import Net
 
 
@@ -19,11 +18,11 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 
 
-def predict(data_dir: str | Path, model_path: str | Path):
+def run_inference(data_dir: str | Path, model_path: str | Path):
     batch_size = 32
 
     # dataset
-    ds = SegmentationDataset(data_dir)
+    ds = SegmentationDataset(data_dir, is_inference=True)
     print(f"\ntotal number of images: {len(ds)}")
 
     # model
@@ -40,32 +39,27 @@ def predict(data_dir: str | Path, model_path: str | Path):
         ds, batch_size=batch_size, shuffle=False, num_workers=2
     )
 
-    save_dir = Path(data_dir).joinpath("predictions")
+    save_dir = Path(data_dir).parent.joinpath("predictions")
     save_dir.mkdir(exist_ok=True)
-    scores = []
+
     with torch.no_grad():
         pbar = tqdm(enumerate(data_loader), total=len(data_loader))
-        for b_idx, (imgs, gt_masks, indices) in pbar:
+        for b_idx, (imgs, _, indices) in pbar:
             preds = model(imgs.to(device))
             mask_preds = (F.sigmoid(preds) > 0.5)
-            score = dice_coeff(mask_preds, gt_masks.to(device))
-            scores.append(score.item())
+
             for i in range(len(imgs)):
                 tifffile.imwrite(
                     save_dir.joinpath(f"{ds.image_files[indices[i]].stem}.tif"),
                     mask_preds[i].cpu().numpy().astype(np.uint8)
                 )
 
-    print(f"\naverage dice score: {np.array(scores).mean():.3f}\n")
-    with open(Path(model_path).parent / "log.txt", "a") as f:
-        f.write(f"\n\ntest average dice score: {np.array(scores).mean():.3f}\n")
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--dataset", type=str, required=True,
-        help="path to the test dataset directory."
+        help="path to the image directory."
     )
     parser.add_argument(
         "--model_path", type=str, required=True,
@@ -74,7 +68,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    predict(
+    run_inference(
         data_dir=args.dataset,
         model_path=args.model_path
     )
