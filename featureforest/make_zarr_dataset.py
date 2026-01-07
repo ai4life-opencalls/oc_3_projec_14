@@ -110,6 +110,7 @@ def _(
     mask_browser,
     mo,
     np,
+    patch_positions,
 ):
     if not mask_browser.value:
         mo.stop(True)
@@ -126,7 +127,10 @@ def _(
         lazy_imread, mask_files, mask_shape, mask_dtype
     )
 
-    mask_positions = [get_patch_position(mfile) for mfile in mask_files]
+    if "row_" in mask_files[0].stem:
+        mask_positions = [get_patch_position(mfile) for mfile in mask_files]
+    else:
+        mask_positions = patch_positions
 
     dask_mask = get_dask_image(
         lazy_masks, mask_positions, mask_shape, mask_dtype
