@@ -14,6 +14,8 @@ The data for this project were aquired using brightfield microscopy (BFM) of cro
 <img src="assets/sp3.png" width="272px"/>
 </div>  
 
+Sample data can be downloaded from Zenodo: [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17311939.svg)](https://doi.org/10.5281/zenodo.17311939)  
+
 ## Overview
 To achieve the desired analysis of the project, as the first step we needed to apply a semantic segmentation model to segment the image into its respective cell types. But the provided data contained ground truth masks only for *Vessel* cells. Therefore, we provided two different approaches to solve this problem:
 - For *Vessel* cells, we trained a deep learning model to achieve the segmentation masks.
