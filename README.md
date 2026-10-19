@@ -6,6 +6,8 @@
 
 # Project #14: The speed of life in trees; Linking wood anatomy with wood lifespan and tree growth
 
+[![DOI](https://zenodo.org/badge/1006448358.svg)](https://doi.org/10.5281/zenodo.19416063)
+
 In this project, scientist from the Hawkesbury Institute for the Environment, Western Sydney University wanted to investigate how wood anatomy is linked to wood lifespan and tree growth. There are four main cell types in wood: *Fiber*, *Vessel*, *Axial Parenchyma* and *Ray*. Each type of cell plays a different role in the transport of water and nutrients throughout the plant. By analyzing these cells, scientists hope to gain insights into how they affect wood lifespan and tree growth.  
 The data for this project were aquired using brightfield microscopy (BFM) of cross-sections of wood samples, which allows researchers to capture images of the entire sample at once. This method provides high-resolution images that can be used to analyze individual cells within the wood structure. The data was included of 93 whole-slide images of 51 species.
 <div>
